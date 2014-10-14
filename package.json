@@ -1,0 +1,9 @@
+{
+  "name": "online-art-gallery",
+  "description": "Online Art Gallery",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "express": "~4.4.3"
+  }
+}
