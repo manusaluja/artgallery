@@ -13,7 +13,11 @@ angular.module('starter.controllers', [])
 
 .controller('AccountCtrl', function($scope,cfpLoadingBar) {
     console.log("Initialized");
-    $scope.test = function(){
+    $scope.start = function(){
         cfpLoadingBar.start();
+    }
+    
+    $scope.stop = function(){
+        cfpLoadingBar.complete();
     }
 });
