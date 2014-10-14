@@ -1,5 +1,5 @@
 
-var artApp = angular.module('art', ['ui.router']);
+var artApp = angular.module('art', ['ui.router','angular-loading-bar', 'ngAnimate', 'starter.controllers','cfp.loadingBar']);
 
 artApp.config(function($stateProvider, $urlRouterProvider) {
     
@@ -17,7 +17,8 @@ artApp.config(function($stateProvider, $urlRouterProvider) {
         .state('about', {
             // we'll get to this in a bit
          url: '/about',
-            templateUrl: 'templates/about.html'
+            templateUrl: 'templates/about.html',
+            controller: 'AccountCtrl'
         });
         
 });

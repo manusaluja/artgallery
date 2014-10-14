@@ -11,5 +11,9 @@ angular.module('starter.controllers', [])
   $scope.friend = Friends.get($stateParams.friendId);
 })
 
-.controller('AccountCtrl', function($scope) {
+.controller('AccountCtrl', function($scope,cfpLoadingBar) {
+    console.log("Initialized");
+    $scope.test = function(){
+        cfpLoadingBar.start();
+    }
 });
