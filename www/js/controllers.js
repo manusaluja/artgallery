@@ -3,7 +3,7 @@ angular.module('starter.controllers', [])
 .controller('DashCtrl', function($scope) {
 })
 
-.controller('FriendsCtrl', function($scope, Friends) {
+.controller('Home', function($scope, Friends) {
   $scope.friends = Friends.all();
 })
 
@@ -20,4 +20,11 @@ angular.module('starter.controllers', [])
     $scope.stop = function(){
         cfpLoadingBar.complete();
     }
+})
+.controller('NavBarController',function($scope)
+            {
+$scope.login= function(){
+    console.log("Logging in! with " +$scope.emailtext + "   "+ $scope.password);
+    
+}
 });
