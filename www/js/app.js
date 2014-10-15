@@ -19,7 +19,11 @@ artApp.config(function($stateProvider, $urlRouterProvider) {
          url: '/about',
             templateUrl: 'templates/about.html',
             controller: 'AccountCtrl'
-        });
+        })
+    .state('button',{
+    url:'/button',
+        templateUrl:'templates/abc.html'
+    });
         
 });
 
