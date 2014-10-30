@@ -25,8 +25,11 @@ angular.module('starter.controllers', [])
 })
 .controller('NavBarController',function($scope)
             {
-$scope.login= function(){
-    console.log("Logging in! with " +$scope.emailtext + "   "+ $scope.password);
-    
-}
-});
+                    $scope.tabSwitch= function(tab){
+                        $scope.highlight = tab;    
+                        console.log(tab);
+                        if($scope.highlight == 'login'){$("#loginbox").show();$("#signupbox").hide()}
+                        else {$("#loginbox").hide();$("#signupbox").show()}
+                        
+                    }
+            });

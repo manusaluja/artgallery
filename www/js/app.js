@@ -10,7 +10,7 @@ artApp.config(function($stateProvider, $urlRouterProvider) {
         // HOME STATES AND NESTED VIEWS ========================================
         .state('home', {
             url: '/home',
-            templateUrl: 'templates/friend-detail.html'
+            templateUrl: 'templates/home.html'
         })
         
         // ABOUT PAGE AND MULTIPLE NAMED VIEWS =================================
