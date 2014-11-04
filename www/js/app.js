@@ -1,8 +1,11 @@
 
-var artApp = angular.module('art', ['ui.router','angular-loading-bar', 'ngAnimate', 'starter.controllers','cfp.loadingBar']);
+var artApp = angular.module('art', ['ui.router','angular-loading-bar', 'ngAnimate', 'starter.controllers','cfp.loadingBar', 'LocalStorageModule','ui.bootstrap']);
 
-artApp.config(function($stateProvider, $urlRouterProvider) {
+artApp.config(function($stateProvider, $urlRouterProvider, localStorageServiceProvider) {
     
+    localStorageServiceProvider.setPrefix('artonline');
+  // localStorageServiceProvider.setStorageCookieDomain('example.com');
+  // localStorageServiceProvider.setStorageType('sessionStorage');
     $urlRouterProvider.otherwise('/home');
     
     $stateProvider
@@ -16,19 +19,18 @@ artApp.config(function($stateProvider, $urlRouterProvider) {
         // ABOUT PAGE AND MULTIPLE NAMED VIEWS =================================
         .state('about', {
             // we'll get to this in a bit
-         url: '/about',
+            url: '/about',
             templateUrl: 'templates/about.html',
             controller: 'AccountCtrl'
         })
-    .state('help',{
-    url:'/help',
-        templateUrl:'templates/help.html'
-    })
-    .state('collections',{
-    url:'/collections',
-        templateUrl:'templates/collections.html'
-        
-    });
+        .state('help',{
+            url:'/help',
+            templateUrl:'templates/help.html'
+        })
+        .state('collections',{
+            url:'/collections',
+            templateUrl:'templates/collections.html'
+        });
         
 });
 

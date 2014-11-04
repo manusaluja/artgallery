@@ -17,6 +17,7 @@
   ],
   "dependencies": {
     "angular-loading-bar": "~0.6.0",
-    "bootstrap": "~3.3.0"
+    "bootstrap": "~3.3.0",
+    "angular-local-storage": "~0.1.4"
   }
 }

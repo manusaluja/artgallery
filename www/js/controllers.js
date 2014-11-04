@@ -23,9 +23,12 @@ angular.module('starter.controllers', [])
         cfpLoadingBar.complete();
     }
 })
-.controller('NavBarController',function($scope, $http)
+.controller('NavBarController',function($scope, $http, localStorageService)
             {    
-    $scope.highlight='login';
+                    console.log(localStorageService.get("user"));
+                    
+                    $scope.highlight='login';
+                    $scope.loggedIn = 'no';
                     $scope.reset = function(){
                         $scope.highlight='login';
                         $("#success").hide();
@@ -35,8 +38,14 @@ angular.module('starter.controllers', [])
                         $scope.register = {};
 
                     }
-                    
+                    if(localStorageService.get("user")!=null){
+                        $scope.loggedInUser = localStorageService.get("user");
+                        $scope.loggedIn = 'yes';
+
+                    }
                     $scope.register = {};
+                    $scope.login = {};
+                    $scope.register.role = 'Artist';
                     $scope.tabSwitch= function(tab){
                         $scope.highlight = tab;    
                         console.log(tab);
@@ -60,4 +69,36 @@ angular.module('starter.controllers', [])
                             // or server returns response with an error status.
                           });
                     }
+                    
+                    $scope.logout = function(){
+                        localStorage.clear();
+                        $scope.loggedIn = 'no';
+                        $scope.loggedInUser = null;
+                    }
+                    
+                    $scope.validateUser = function(){
+                    console.log($scope.login);
+                        $http.post('/api/login',$scope.login).
+                         success(function(data, status, headers, config) {
+                            // this callback will be called asynchronously
+                            // when the response is available
+                            if(data.isCompleted == 1){
+                                localStorageService.set("user", data.user);
+                                $scope.loggedInUser = localStorageService.get("user");
+
+                            $scope.loggedIn = 'yes';
+                            $("#success").show();
+                            $("#signupbox").hide();
+                            $("#navTabs").hide();
+                            $("#loginbox").hide();
+                            } else{
+                            alert("Incorrect Login, Please Try Again");
+                            }
+                          }).
+                          error(function(data, status, headers, config) {
+                            // called asynchronously if an error occurs
+                            // or server returns response with an error status.
+                          });
+                    }
+                    
             });

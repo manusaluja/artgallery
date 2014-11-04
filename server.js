@@ -38,6 +38,7 @@ router.post('/register',register.save);
 
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api
+router.post('/login',register.validate);
 app.use('/api', router);
 
 
