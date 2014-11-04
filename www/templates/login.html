@@ -1,9 +1,9 @@
-<div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" ng-init="highlight='login';" ng-controller="NavBarController">
+<div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header" style="border-bottom: 0px !important">
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-<ul class="nav nav-tabs">
+<ul class="nav nav-tabs" id="navTabs">
     <li ng-class="{active: highlight == 'login'}"><a href="" ng-click="tabSwitch('login')">Login</a></li>
     <li ng-class="{active: highlight == 'register'}"><a href="" ng-click="tabSwitch('register')">Register</a></li>
 </ul>
@@ -72,39 +72,39 @@
                                 <div class="form-group">
                                     <label for="email" class="col-md-3 control-label">Email</label>
                                     <div class="col-md-9">
-                                        <input type="text" class="form-control" name="email" placeholder="Email Address">
+                                        <input type="text" ng-model="register.email" class="form-control" name="email" placeholder="Email Address">
                                     </div>
                                 </div>
                                     
                                 <div class="form-group">
                                     <label for="firstname" class="col-md-3 control-label">First Name</label>
                                     <div class="col-md-9">
-                                        <input type="text" class="form-control" name="firstname" placeholder="First Name">
+                                        <input type="text" class="form-control" name="firstname" placeholder="First Name" ng-model="register.fname">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="lastname" class="col-md-3 control-label">Last Name</label>
                                     <div class="col-md-9">
-                                        <input type="text" class="form-control" name="lastname" placeholder="Last Name">
+                                        <input type="text" class="form-control" name="lastname" placeholder="Last Name" ng-model="register.lname">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="password" class="col-md-3 control-label">Password</label>
                                     <div class="col-md-9">
-                                        <input type="password" class="form-control" name="passwd" placeholder="Password">
+                                        <input type="password" class="form-control" name="passwd" placeholder="Password" ng-model="register.password">
                                     </div>
                                 </div>
                                     
                                 <div class="form-group">
                                     <label for="icode" class="col-md-3 control-label">Confirm Password</label>
                                     <div class="col-md-9">
-                                        <input type="password" class="form-control" name="passwd" placeholder="Password">
+                                        <input type="password" class="form-control" name="passwd" placeholder="Password" ng-model="register.cpassword">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <!-- Button -->                                        
                                     <div class="col-md-offset-3 col-md-9">
-                                        <button id="btn-signup" type="button" class="btn btn-info"><i class="icon-hand-right"></i> &nbsp Sign Up</button>
+                                        <button id="btn-signup" type="button" class="btn btn-info" ng-click="registerUser();"><i class="icon-hand-right"></i> &nbsp Sign Up</button>
                                     </div>
                                 </div>
                             </form>
@@ -115,6 +115,19 @@
                
                
                 
+         </div>
+          <div id="success" style="display:none;" class="mainbox">
+               <div class="panel panel-default">
+           <div class="panel-heading"><h4>Success</h4></div>
+   			<div class="panel-body">
+              <ul class="list-group">
+              <li class="list-group-item">You can now explore Arts</li>
+              <li class="list-group-item">You can now Buy Arts</li>
+              <li class="list-group-item">You can now rate Artists & Arts</li>
+                  <a class="btn btn-primary center-block" data-dismiss="modal" href="#" style="margin-top:10px">Start Exploring</a>
+              </ul>
+            </div>
+   		</div>  
          </div> 
 
     
