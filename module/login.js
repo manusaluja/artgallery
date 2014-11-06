@@ -10,15 +10,15 @@ exports.save = function(req, res){
     console.log('connected to the art database.');
     db.collection('users').insert(user, function(err, inserted) {
         if(err) throw err;
-
+        console.log(inserted);
         console.dir("Successfully inserted to the User collection : " + JSON.stringify(user));
 
-        return db.close();
+        db.close();
     });
 
 });
     
-    res.json({ message: 'User Registered', isCompleted : 1 });	
+    res.json({ message: 'User Registered', isCompleted : 1, user : inserted });	
 };
 exports.validate = function(req, res)
 {

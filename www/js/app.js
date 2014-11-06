@@ -1,9 +1,22 @@
 
 var artApp = angular.module('art', ['ui.router','angular-loading-bar', 'ngAnimate', 'starter.controllers','cfp.loadingBar', 'LocalStorageModule','ui.bootstrap']);
 
-artApp.config(function($stateProvider, $urlRouterProvider, localStorageServiceProvider) {
+artApp.config(function($stateProvider, $urlRouterProvider, localStorageServiceProvider, $httpProvider) {
     
     localStorageServiceProvider.setPrefix('artonline');
+    $httpProvider.responseInterceptors.push(["$q", "$timeout", function ($q, $timeout) {
+    return function (promise) {
+        var defer = $q.defer();
+
+        $timeout(function () {
+            promise.then(function (data) {
+                defer.resolve(data);
+            });
+        }, 2500);
+
+        return defer.promise;
+    };
+}]);
   // localStorageServiceProvider.setStorageCookieDomain('example.com');
   // localStorageServiceProvider.setStorageType('sessionStorage');
     $urlRouterProvider.otherwise('/home');
@@ -23,9 +36,9 @@ artApp.config(function($stateProvider, $urlRouterProvider, localStorageServicePr
             templateUrl: 'templates/about.html',
             controller: 'AccountCtrl'
         })
-        .state('help',{
-            url:'/help',
-            templateUrl:'templates/help.html'
+        .state('account',{
+            url:'/account',
+            templateUrl:'templates/account.html'
         })
         .state('collections',{
             url:'/collections',

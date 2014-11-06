@@ -59,10 +59,18 @@ angular.module('starter.controllers', [])
                         $http.post('/api/register',$scope.register).
                           success(function(data, status, headers, config) {
                             // this callback will be called asynchronously
-                            // when the response is available
-                            $("#success").show();
-                            $("#signupbox").hide();
-                            $("#navTabs").hide();
+                            // when the response is available.
+                            if(data.isCompleted == 1){
+                            
+                                localStorageService.set("user", data.user);
+                                $scope.loggedInUser = localStorageService.get("user");
+                                $scope.loggedIn = 'yes';
+                                $("#success").show();
+                                $("#signupbox").hide();
+                                $("#navTabs").hide();
+                            } else{
+                            
+                            }
                           }).
                           error(function(data, status, headers, config) {
                             // called asynchronously if an error occurs
