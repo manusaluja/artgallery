@@ -1,83 +1,136 @@
 /* Empty. Add your own CSS if you like */
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
-@import url(http://fonts.googleapis.com/css?family=Lato:400,700);
-body
-{
-    font-family: 'Lato', 'sans-serif';
+.animation-fade {
+    opacity:0;
+}
+
+.animation-faded {
+    opacity:1;
+}
+
+img {
+    height:auto;
+    max-width:100%;
+}
+
+.animation-faded {
+   -webkit-transition: opacity 1s linear .2s;
+   -moz-transition: opacity 1s linear .2s;
+   -o-transition: opacity 1s linear .2s;
+   transition: opacity 1s linear .2s;
+}
+.deckgrid {
+    padding:10px;
+    width:1500px;
+}
+
+.deckgrid[deckgrid]::before {
+    content: '5 .column.size-1-5';
+    font-size: 0;
+    visibility:hidden;
+}
+
+.deckgrid .column {
+    float:left;
+}
+
+.photo {
+    background:#fff url(spinner.gif) center 30px no-repeat;
+    border:1px solid rgba(0, 0, 0, .15);
+    border-radius:3px;
+    margin:0 10px 10px 0;
+    position:relative;
+}
+
+.photo .photo-index {
+    background:rgba(0, 0, 0, .9);
+    color:#fff;
+    position:absolute;
+    height:100%;
+    text-align:center;
+    width:100%;
+    z-index:99;
+}
+
+.photo .photo-index p:first-child {
+    margin-top:10px;
+}
+
+.photo .photo-wrapper {
+    min-height:60px;
+}
+
+.photo .photo-description {
+    padding:15px;
+}
+
+.deckgrid .column.size-1-5 {
+    width:200px;
+}
+
+.deckgrid .column.size-1-4 {
+    width:200px;
+}
+
+.deckgrid .column.size-1-3 {
+    width:250px;
+}
+
+.deckgrid .column.size-1-2 {
+    width:250px;
+}
+
+.deckgrid .column.size-1-1 {
+    width:280px;
+}
+
+@media screen and (max-width: 1000px) {
+    .deckgrid {
+        width:800px;
     }
-.profile 
-{
-    min-height: 355px;
-    display: inline-block;
+
+    .deckgrid[deckgrid]::before {
+        content: '4 .column.size-1-4';
     }
-figcaption.ratings
-{
-    margin-top:20px;
+}
+
+@media screen and (max-width: 840px) {
+    .deckgrid {
+        width:770px;
     }
-figcaption.ratings a
-{
-    color:#f1c40f;
-    font-size:11px;
+
+    .deckgrid[deckgrid]::before {
+        content: '3 .column.size-1-3';
     }
-figcaption.ratings a:hover
-{
-    color:#f39c12;
-    text-decoration:none;
+}
+
+
+@media screen and (min-width: 481px) and (max-width: 768px) {
+    .deckgrid {
+        margin:100px auto;
+        width:500px;
     }
-.divider 
-{
-    border-top:1px solid rgba(0,0,0,0.1);
+
+    .deckgrid[deckgrid]::before {
+        content: '2 .column.size-1-2';
     }
-.emphasis 
-{
-    border-top: 4px solid transparent;
+}
+
+@media only screen and (max-device-width : 320px),
+       only screen and (max-width : 480px) {
+
+    .l-header {
+        font-size:80%;
+        margin-top:145px;
+        padding:5px;
+        text-align:center;
     }
-.emphasis:hover 
-{
-    border-top: 4px solid #1abc9c;
+
+    .deckgrid {
+        width:280px;
     }
-.emphasis h2
-{
-    margin-bottom:0;
+
+    .deckgrid[deckgrid]::before {
+        content: '1 .column.size-1-1';
     }
-span.tags 
-{
-    background: #1abc9c;
-    border-radius: 2px;
-    color: #f5f5f5;
-    font-weight: bold;
-    padding: 2px 4px;
-    }
-.dropdown-menu 
-{
-    background-color: #34495e;    
-    box-shadow: none;
-    -webkit-box-shadow: none;
-    width: 250px;
-    margin-left: -125px;
-    left: 50%;
-    }
-.dropdown-menu .divider 
-{
-    background:none;    
-    }
-.dropdown-menu>li>a
-{
-    color:#f5f5f5;
-    }
-.dropup .dropdown-menu 
-{
-    margin-bottom:10px;
-    }
-.dropup .dropdown-menu:before 
-{
-    content: "";
-    border-top: 10px solid #34495e;
-    border-right: 10px solid transparent;
-    border-left: 10px solid transparent;
-    position: absolute;
-    bottom: -10px;
-    left: 50%;
-    margin-left: -10px;
-    z-index: 10;
-    }
+}

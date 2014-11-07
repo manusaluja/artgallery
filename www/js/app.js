@@ -1,22 +1,10 @@
 
-var artApp = angular.module('art', ['ui.router','angular-loading-bar', 'ngAnimate', 'starter.controllers','cfp.loadingBar', 'LocalStorageModule','ui.bootstrap']);
+var artApp = angular.module('art', ['ui.router','angular-loading-bar', 'ngAnimate', 'starter.controllers','cfp.loadingBar', 'LocalStorageModule','ui.bootstrap','akoenig.deckgrid']);
 
 artApp.config(function($stateProvider, $urlRouterProvider, localStorageServiceProvider, $httpProvider) {
     
     localStorageServiceProvider.setPrefix('artonline');
-    $httpProvider.responseInterceptors.push(["$q", "$timeout", function ($q, $timeout) {
-    return function (promise) {
-        var defer = $q.defer();
 
-        $timeout(function () {
-            promise.then(function (data) {
-                defer.resolve(data);
-            });
-        }, 2500);
-
-        return defer.promise;
-    };
-}]);
   // localStorageServiceProvider.setStorageCookieDomain('example.com');
   // localStorageServiceProvider.setStorageType('sessionStorage');
     $urlRouterProvider.otherwise('/home');
@@ -40,12 +28,35 @@ artApp.config(function($stateProvider, $urlRouterProvider, localStorageServicePr
             url:'/account',
             templateUrl:'templates/account.html'
         })
+        .state('dashboard',{
+            url:'/dashboard',
+            templateUrl:'templates/dashboard.html',
+            controller: 'DashCtrl'
+        })
         .state('collections',{
             url:'/collections',
             templateUrl:'templates/collections.html'
         });
         
-});
+}).directive('imageloaded', [
+
+    function () {
+
+        'use strict';
+
+        return {
+            restrict: 'A',
+
+            link: function(scope, element, attrs) {   
+                var cssClass = attrs.loadedclass;
+
+                element.bind('load', function (e) {
+                    angular.element(element).addClass(cssClass);
+                });
+            }
+        }
+    }
+]);;
 
 
 
