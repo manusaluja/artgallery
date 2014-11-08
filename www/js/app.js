@@ -14,7 +14,8 @@ artApp.config(function($stateProvider, $urlRouterProvider, localStorageServicePr
         // HOME STATES AND NESTED VIEWS ========================================
         .state('home', {
             url: '/home',
-            templateUrl: 'templates/home.html'
+            templateUrl: 'templates/home.html',
+            controller: 'DashCtrl'
         })
         
         // ABOUT PAGE AND MULTIPLE NAMED VIEWS =================================
