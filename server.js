@@ -4,12 +4,12 @@ var express = require('express'),
     uploadImage = require('./module/uploadImage');
     bodyParser = require('body-parser');
 app.use(express.static('www'));
-
+var multipart = require('connect-multiparty');
+var multipartMiddleware = multipart();
 // configure app to use bodyParser()
 // this will let us get the data from a POST
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
 var port = process.env.PORT || 8080; 		// set our port
 
 // CORS (Cross-Origin Resource Sharing) headers to support Cross-site HTTP requests
@@ -36,7 +36,7 @@ router.get('/welcome', function(req, res) {
 
 router.post('/register',register.save);
 
-app.post('/uploadImage', uploadImage.save)
+app.post('/uploadImage',multipartMiddleware, uploadImage.save)
 // more routes for our API will happen here
 
 // REGISTER OUR ROUTES -------------------------------
