@@ -30,7 +30,7 @@ angular.module('starter.controllers', [])
     
 })
 
-.controller('AccountCtrl', function($scope,cfpLoadingBar) {
+.controller('AccountCtrl', function($scope,$http,cfpLoadingBar) {
     
     console.log("Initialized");
     
@@ -41,6 +41,14 @@ angular.module('starter.controllers', [])
     $scope.stop = function(){
         cfpLoadingBar.complete();
     }
+    
+    $scope.uploadFile = function() {
+        console.log($scope.files);
+        $http.post('/api/uploadImage',{files: $scope.files}).
+          success(function(data, status, headers, config) {
+            console.log(data);
+        });
+    };
 })
 .controller('NavBarController',function($scope, $http, localStorageService)
             {    
