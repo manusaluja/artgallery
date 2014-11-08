@@ -136,4 +136,43 @@ angular.module('starter.controllers', [])
                           });
                     }
                     
+            }).controller('ArtController',function( $scope, $fileUploader, $http, localStorageService) {
+    $scope.art = {};    
+    
+    // Creates a uploader
+        var uploader = $scope.uploader = $fileUploader.create({
+            scope: $scope,
+            url: 'uploadImage'
+        });
+        $scope.$on('modal-reset', function(){
+        	uploader.clearQueue();
+        });
+    
+        $scope.saveart = function(){
+            $scope.art.artistId = localStorageService.get("user")._id;
+            console.log("Saving Art" + $scope.art);
+            $http.post('/api/saveArt', $scope.art).success(function(data, status, headers, config){
+                console.log(data);
+            }).error(function(data, status, headers, config){
+                console.error(data);
             });
+        }
+
+        // ADDING FILTERS
+
+        // Images only
+        uploader.filters.push(function(item /*{File|HTMLInputElement}*/) {
+            var type = uploader.isHTML5 ? item.type : '/' + item.value.slice(item.value.lastIndexOf('.') + 1);
+            type = '|' + type.toLowerCase().slice(type.lastIndexOf('/') + 1) + '|';
+            return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+        });
+    
+
+        uploader.bind('success', function (event, xhr, item, response) {
+            console.info('Success', xhr, item, response);
+    		$scope.art.imageUrl=response.url;
+            $scope.$apply();
+        });
+ 
+    }
+);

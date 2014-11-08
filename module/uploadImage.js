@@ -17,7 +17,7 @@ exports.save = function(req, res) {
             console.log('uploaded');
             var imgPath =req.files.file.name; 
             delete req.files;
-           res.send(200,imgPath);
+            res.json({ message: 'File Uploaded', isCompleted : 1, url : 'uploads/'+ imgPath });	
             //res.redirect("back");
         });
     });

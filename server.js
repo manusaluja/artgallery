@@ -1,7 +1,8 @@
 var express = require('express'),
     app = express(),
-    register = require('./module/login');
-    uploadImage = require('./module/uploadImage');
+    register = require('./module/login'),
+    uploadImage = require('./module/uploadImage'),
+    artService = require('./module/artservice')
     bodyParser = require('body-parser');
 app.use(express.static('www'));
 var multipart = require('connect-multiparty');
@@ -35,7 +36,7 @@ router.get('/welcome', function(req, res) {
 });
 
 router.post('/register',register.save);
-
+router.post('/saveArt',artService.saveArt);
 app.post('/uploadImage',multipartMiddleware, uploadImage.save)
 // more routes for our API will happen here
 
