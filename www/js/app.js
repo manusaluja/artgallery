@@ -1,5 +1,5 @@
 
-var artApp = angular.module('art', ['ui.router','angular-loading-bar', 'ngAnimate', 'starter.controllers','cfp.loadingBar', 'LocalStorageModule','ui.bootstrap','akoenig.deckgrid']);
+var artApp = angular.module('art', ['ui.router', 'angularFileUpload','angular-loading-bar', 'ngAnimate', 'starter.controllers','cfp.loadingBar', 'LocalStorageModule','ui.bootstrap','akoenig.deckgrid']);
 
 artApp.config(function($stateProvider, $urlRouterProvider, localStorageServiceProvider, $httpProvider) {
     

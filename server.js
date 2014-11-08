@@ -1,6 +1,7 @@
 var express = require('express'),
     app = express(),
-    register = require('./module/login')
+    register = require('./module/login');
+    uploadImage = require('./module/uploadImage');
     bodyParser = require('body-parser');
 app.use(express.static('www'));
 
@@ -34,6 +35,8 @@ router.get('/welcome', function(req, res) {
 });
 
 router.post('/register',register.save);
+
+app.post('/uploadImage', uploadImage.save)
 // more routes for our API will happen here
 
 // REGISTER OUR ROUTES -------------------------------

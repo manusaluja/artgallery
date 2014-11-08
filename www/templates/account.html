@@ -29,6 +29,7 @@
                     <div class="tab-content">
                         <div id="information" class="tab-pane active">
                             <h4>Account Information</h4>
+                            <a href="" class="btn btn-white btn-sm" role="button" data-toggle="modal" data-target="#uploadModal"><i class="fa fa-pencil"></i> Upload Image</a>
                         </div>
                         <div id="settings" class="tab-pane">
                             <h4>Settings</h4>
@@ -154,3 +155,21 @@
 
 
 </div>
+
+<div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog"  style="left: 0%; width: -1px; margin-left: 6%;">
+            <div class="container">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Add Product Image</h4>
+                </div>
+
+                <div class="modal-body row">
+                            <div ng-include="'../angular-file-upload/index.html'"></div>
+                    
+                </div>
+
+            </div>
+            </div>
+        </div>
