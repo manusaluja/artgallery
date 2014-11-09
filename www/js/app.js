@@ -28,7 +28,14 @@ artApp.config(function($stateProvider, $urlRouterProvider, localStorageServicePr
         .state('account',{
             url:'/account',
             templateUrl:'templates/account.html',
-            controller: 'AccountCtrl'
+            controller: 'AccountCtrl',
+            resolve:{
+            artsObj:  function($http, localStorageService){
+            // $http returns a promise for the url data
+                return $http({method: 'POST', url: '/api/getAllArts', data: {artistId : localStorageService.get("user")._id}});
+            }
+
+            }
         })
         .state('dashboard',{
             url:'/dashboard',

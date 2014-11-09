@@ -6,6 +6,9 @@ angular.module('starter.controllers', [])
 
 .controller('DashCtrl', function($scope, $stateParams) {
   $scope.name = 'sorabhsaluja';
+    $scope.testClick = function(){
+        console.log("This is test click");
+    }
  $scope.photos = [
             {id: 'photo-1', name: 'Awesome photo', src: 'http://lorempixel.com/400/300/abstract'},
             {id: 'photo-2', name: 'Great photo', src: 'http://lorempixel.com/450/400/city'},
@@ -30,8 +33,10 @@ angular.module('starter.controllers', [])
     
 })
 
-.controller('AccountCtrl', function($scope,$http,cfpLoadingBar) {
-    
+.controller('AccountCtrl', function($scope,$http,cfpLoadingBar, artsObj, localStorageService) {
+    console.log(artsObj.data.artsArray);
+    $scope.artsArray = artsObj.data.artsArray;
+     
     console.log("Initialized");
     
     $scope.start = function(){
@@ -42,13 +47,66 @@ angular.module('starter.controllers', [])
         cfpLoadingBar.complete();
     }
     
-    $scope.uploadFile = function() {
-        console.log($scope.files);
-        $http.post('/api/uploadImage',{files: $scope.files}).
-          success(function(data, status, headers, config) {
-            console.log(data);
-        });
-    };
+    $scope.edit = function(id){
+        console.log("editing "+id); 
+        $scope.art = id;
+    }
+    
+    $scope.delete = function(id){
+        console.log('deleting'+id);
+        $http.post('/api/deleteArt', id).success(function(data, status, headers, config){
+                console.log(data);
+                location.reload();
+            }).error(function(data, status, headers, config){
+                console.error(data);
+            });
+    }
+    $scope.saveart = function(){
+            $scope.art.artistId = localStorageService.get("user")._id;
+            console.log("Saving Art" + $scope.art);
+            $http.post('/api/saveArt', $scope.art).success(function(data, status, headers, config){
+                console.log(data);
+                $('#editModal').modal('hide');
+                location.reload();
+            }).error(function(data, status, headers, config){
+                console.error(data);
+            });
+        };
+    
+   
+    
+    $scope.today = function() {
+    $scope.dt = new Date();
+  };
+  $scope.today();
+
+  $scope.clear = function () {
+    $scope.dt = null;
+  };
+
+  // Disable weekend selection
+  $scope.disabled = function(date, mode) {
+    return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
+  };
+
+  $scope.toggleMin = function() {
+    $scope.minDate = $scope.minDate ? null : new Date();
+  };
+  $scope.toggleMin();
+
+  $scope.open = function($event) {
+    $event.preventDefault();
+    $event.stopPropagation();
+
+    $scope.opened = true;
+  };
+
+  $scope.dateOptions = {
+    formatYear: 'yy',
+    startingDay: 1
+  };
+
+
 })
 .controller('NavBarController',function($scope, $http, localStorageService)
             {    
@@ -137,8 +195,9 @@ angular.module('starter.controllers', [])
                     }
                     
             }).controller('ArtController',function( $scope, $fileUploader, $http, localStorageService) {
-    $scope.art = {};    
-    
+    $scope.art = {};   
+    $scope.exhibition = {};
+    $scope.states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Dakota', 'North Carolina', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming'];
     // Creates a uploader
         var uploader = $scope.uploader = $fileUploader.create({
             scope: $scope,
@@ -153,11 +212,25 @@ angular.module('starter.controllers', [])
             console.log("Saving Art" + $scope.art);
             $http.post('/api/saveArt', $scope.art).success(function(data, status, headers, config){
                 console.log(data);
+                $('#uploadModal').modal('hide');
+                location.reload();
             }).error(function(data, status, headers, config){
                 console.error(data);
             });
         }
+         $scope.saveExhibition = function(){
+             $scope.exhibition.artistId = localStorageService.get("user")._id;
+             $scope.exhibition.imageUrl = $scope.art.imageUrl;
+                console.log($scope.exhibition);
+             $http.post('/api/saveExhibition', $scope.exhibition).success(function(data, status, headers, config){
+                console.log(data);
+                $('#exhibitionModal').modal('hide');
+                //location.reload();
+            }).error(function(data, status, headers, config){
+                console.error(data);
+            });
 
+            };
         // ADDING FILTERS
 
         // Images only

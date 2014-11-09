@@ -45,8 +45,11 @@ textarea {
   outline: 0;
 }
 .panel .btn i,.btn span{
-  color:#666666;
+  color:#000;
 }
+/** Color added for Glyphicons */
+
+
 .panel .panel-heading {
   background-color:#ffffff;
   font-weight:700;

@@ -19,8 +19,8 @@
                         </a>
                     </li>
                     <li>
-                        <a data-toggle="tab" href="#email" stop-click>
-                            <span class="glyphicon glyphicon-envelope"></span>
+                        <a data-toggle="tab" href="#exhibition" stop-click>
+                            <span class="glyphicon glyphicon-sound-dolby"></span>
                         </a>
                     </li>
                    
@@ -33,12 +33,11 @@
                         <div id="settings" class="tab-pane">
                             <h4>Settings</h4>
                         </div>
-                        <div id="email" class="tab-pane">
-                            <h4>Send Message</h4>
+                        <div id="exhibition" class="tab-pane">
+                            <h4>Exhibitions</h4>
+                            <a class="btn btn-primary center-block"   data-toggle="modal" data-target="#exhibitionModal">Create Exhibition</a>
                         </div>
-                        <div id="events" class="tab-pane">
-                            <h4>Events</h4>
-                        </div>
+                        
                     </div>
                 </div>
             </div>
@@ -62,77 +61,32 @@
                 </div>                  
                
                <div class="row">
-                <div class="col-md-4 col-sm-6">
+                <!--<div class="col-md-4 col-sm-6" ng-repeat="display in artsArray">
                    <div class="panel panel-default">
-   			<div class="panel-body">
-              <img src="//placehold.it/220x150"> 
-              <div class="clearfix"></div>
-              <hr>
-              
-              <p>If you're looking for help with Bootstrap code, the <code>twitter-bootstrap</code> tag at <a href="http://stackoverflow.com/questions/tagged/twitter-bootstrap">Stackoverflow</a> is a good place to find answers.</p>
-              
-              <hr>
-              <form>
-              <div class="input-group">
-                <div class="input-group-btn">
-                <button class="btn btn-default">+1</button><button class="btn btn-default"><i class="glyphicon glyphicon-share"></i></button>
-                </div>
-                <input type="text" class="form-control" placeholder="Add a comment..">
-              </div>
-          	  </form>
-              
-            </div>
-         </div>
+                        <div class="panel-body">
+                          <img ng-src="{{display.imageUrl}}"> 
+                          <div class="clearfix"></div>
+                          <hr>
+
+                          <p>{{display.description}}</p>
+
+                          <hr>
+                        <h4>{{display.name}}</h4>        
+                          <form>
+                          <div class="input-group">
+                            <div class="input-group-btn">
+                            <button class="btn btn-default">+1</button><button class="btn btn-default"><i class="glyphicon glyphicon-share"></i></button>
+                            </div>
+                            <input type="text" class="form-control" placeholder="Add a comment..">
+                          </div>
+                          </form>
+
+                        </div>
+                     </div>
                    
-                   </div>
-                 <div class="col-md-4 col-sm-6">
-                  <div class="panel panel-default">
-   			<div class="panel-body">
-              <img src="//placehold.it/220x150"> 
-              <div class="clearfix"></div>
-              <hr>
-              
-              <p>If you're looking for help with Bootstrap code, the <code>twitter-bootstrap</code> tag at <a href="http://stackoverflow.com/questions/tagged/twitter-bootstrap">Stackoverflow</a> is a good place to find answers.</p>
-              
-              <hr>
-              <form>
-              <div class="input-group">
-                <div class="input-group-btn">
-                <button class="btn btn-default">+1</button><button class="btn btn-default"><i class="glyphicon glyphicon-share"></i></button>
-                </div>
-                <input type="text" class="form-control" placeholder="Add a comment..">
-              </div>
-          	  </form>
-              
-            </div>
-         </div>
-                   
-                   </div> <div class="col-md-4 col-sm-6">
-                   <div class="panel panel-default">
-   			<div class="panel-body">
-              <img src="//placehold.it/220x150"> 
-              <div class="clearfix"></div>
-              <hr>
-              
-              <p>If you're looking for help with Bootstrap code, the <code>twitter-bootstrap</code> tag at <a href="http://stackoverflow.com/questions/tagged/twitter-bootstrap">Stackoverflow</a> is a good place to find answers.</p>
-              
-              <hr>
-              <form>
-              <div class="input-group">
-                <div class="input-group-btn">
-                <button class="btn btn-default">+1</button><button class="btn btn-default"><i class="glyphicon glyphicon-share"></i></button>
-                </div>
-                <input type="text" class="form-control" placeholder="Add a comment..">
-              </div>
-          	  </form>
-              
-            </div>
-         </div>
-    </div> 
-                   
-                   <div class="col-md-4 col-sm-6">
-                   
-                   </div>
+                   </div>-->
+                   <div class="deckgrid clearfix" deckgrid="" source="artsArray" cardtemplate="templates/artist-card.html"></div>
+
              
                 </div>
             
@@ -146,7 +100,7 @@
 
 <div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog"  style="left: 0%; width: -1px; margin-left: 6%;">
-            <div class="container">
+            <div class="container" style="width:875px;">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -161,3 +115,80 @@
             </div>
             </div>
         </div>
+</div>
+
+<div class="modal fade" id="exhibitionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog"  style="left: 0%; width: -1px; margin-left: 6%;">
+            <div class="container" style="width:875px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Add Exhibition</h4>
+                </div>
+
+                <div class="modal-body">
+                            <div ng-include="'../angular-file-upload/exhibition.html'"></div>
+                    
+                </div>
+
+            </div>
+            </div>
+        </div>
+</div>
+
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog"  style="left: 0%; width: -1px; margin-left: 6%;">
+            <div class="container" style="width:1145px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Edit Art</h4>
+                </div>
+
+                <div class="modal-body">
+                           <div class="row">
+      <div class="col-sm-6 col-xs-6">
+        <div class="panel panel-default">
+         
+          <div class="panel-body">
+            <img ng-src="{{art.imageUrl}}">
+          </div>
+            
+        </div>
+      </div><!--/col-->                                 
+      
+      <div class="col-sm-6 col-xs-6">
+      	<div class="well"> 
+             <form role="form">
+				<div class="form-group">
+					 <label for="artname">Art Name</label><input type="text" class="form-control" id="artname" ng-model="art.name" />
+				</div>
+				<div class="form-group">
+					 <label for="artdescr">Art Description</label><textarea class="form-control" placeholder="Enter Art Description" ng-model="art.description" id="artdescr"></textarea>
+				</div>
+				<div class="form-group">
+					 <label for="artype">Art Type</label>
+                    <div class="btn-group" style="margin-left:20px">
+                                        <label class="btn btn-success" ng-model="art.type" btn-radio="'Painting'" uncheckable="">Painting</label>
+                                        <label class="btn btn-success" ng-model="art.type" btn-radio="'Sculpture'" uncheckable="">Sculpture</label>
+                                         <label class="btn btn-success" ng-model="art.type" btn-radio="'Furniture'" uncheckable="">Furniture</label>
+                                    </div>
+				</div>
+				<div class="form-group">
+					 <label for="artprice">Art Price</label><input type="number" class="form-control" id="artprice" ng-model="art.price"  />
+				</div>
+				<button type="submit" class="btn btn-default" ng-click="saveart()">Submit</button>
+			</form>
+        </div>
+           
+      </div><!--/col-->
+        
+     
+  	</div>
+                    
+                </div>
+
+            </div>
+            </div>
+        </div>
+</div>

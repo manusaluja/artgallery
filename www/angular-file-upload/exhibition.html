@@ -58,24 +58,48 @@ canvas {
       <div class="col-sm-7 col-xs-6">
       	<div class="well"> 
              <form role="form">
+                  <div class="form-group">
+                    <label for="inputEmail3">Start Date</label>
+                   
+                      <input type="text" 
+                           datepicker-popup="dd-MMMM-yyyy"
+                           ng-model="exhibition.StartDate"
+                           is-open="exhibition.StartDate.open"
+                           ng-click = "exhibition.StartDate.open = true"
+                           max-date="maxDate"
+                           datepicker-options="dateOptions"
+                           ng-required="true"
+                           close-text="Close"
+                           class="form-control" placeholder="Start Date" />
+                    </div>
+                  <div class="form-group">
+                    <label for="inputEmail3">End Date</label>
+                   
+                      <input type="text" 
+                           datepicker-popup="dd-MMMM-yyyy"
+                           ng-model="exhibition.EndDate"
+                           is-open="exhibition.EndDate.open"
+                           ng-click = "exhibition.EndDate.open = true"
+                           max-date="maxDate"
+                           datepicker-options="dateOptions"
+                           ng-required="true"
+                           close-text="Close"
+                           class="form-control" placeholder="End Date" />
+                    </div>
+                 
+                 
 				<div class="form-group">
-					 <label for="artname">Art Name</label><input type="text" class="form-control" id="artname" ng-model="art.name" />
+					 <label for="artname">Exhibition Name</label><input type="text" class="form-control" id="artname" ng-model="exhibition.name" />
 				</div>
 				<div class="form-group">
-					 <label for="artdescr">Art Description</label><textarea class="form-control" placeholder="Enter Art Description" ng-model="art.description" id="artdescr"></textarea>
+					 <label for="artdescr">Description</label><textarea class="form-control" placeholder="Enter Exhibition Description" ng-model="exhibition.description" id="artdescr"></textarea>
 				</div>
-				<div class="form-group">
-					 <label for="artype">Art Type</label>
-                    <div class="btn-group" style="margin-left:20px">
-                                        <label class="btn btn-success" ng-model="art.type" btn-radio="'Painting'" uncheckable="">Painting</label>
-                                        <label class="btn btn-success" ng-model="art.type" btn-radio="'Sculpture'" uncheckable="">Sculpture</label>
-                                         <label class="btn btn-success" ng-model="art.type" btn-radio="'Furniture'" uncheckable="">Furniture</label>
-                                    </div>
+                 <div class="form-group">
+					 <label for="artdescr">Location</label>
+                     <input type="text" ng-model="exhibition.location" typeahead="state for state in states | filter:$viewValue | limitTo:8" class="form-control">
 				</div>
-				<div class="form-group">
-					 <label for="artprice">Art Price</label><input type="number" class="form-control" id="artprice" ng-model="art.price"  />
-				</div>
-				<button type="submit" class="btn btn-default" ng-click="saveart()">Submit</button>
+				         
+				<button type="submit" class="btn btn-default" ng-click="saveExhibition()">Submit</button>
 			</form>
         </div>
            
