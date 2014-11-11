@@ -40,6 +40,8 @@ router.post('/saveArt',artService.saveArt);
 router.post('/deleteArt',artService.deleteArt);
 router.post('/getAllArts',artService.getAllArts);
 router.post('/saveExhibition',artService.saveExhibition);
+router.post('/postComment', artService.postComment);
+router.post('/getComments', artService.getComments);
 router.get('/homepage',artService.homepage);
 
 app.post('/uploadImage',multipartMiddleware, uploadImage.save)

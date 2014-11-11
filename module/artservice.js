@@ -120,6 +120,52 @@ exports.getAllArts = function(req, res){
 
 };
 
+exports.postComment = function(req, res){
+
+     var comment = req.body;
+    var artReqId = comment.artId;
+    MongoClient.connect('mongodb://localhost:27017/art', function(err, db) {
+        if(err) throw err;
+
+        console.log('connected to the art database.');
+        db.collection('comments').insert(comment, function(err, arts) {
+            if(err) throw err;
+            var query = {artId : artReqId }
+            db.collection('comments').find(query).toArray(function(err, commentsArray){
+            if(err) throw err;
+                
+                
+                res.json({ message: 'Comments', isCompleted : 1, comments : commentsArray });	
+            });
+            
+
+        });
+
+
+
+    });
+                        
+}
+
+exports.getComments = function(req, res){
+
+     var artReqId = req.body.artId;
+console.log(req.body);
+    MongoClient.connect('mongodb://localhost:27017/art', function(err, db) {
+        if(err) throw err;
+
+        console.log('connected to the art database.');
+            var query = {artId : artReqId }
+            db.collection('comments').find(query).toArray(function(err, commentsArray){
+            if(err) throw err;
+               res.json({ message: 'Comments', isCompleted : 1, comments : commentsArray });	
+            });
+            
+        });
+                        
+}
+
+
 exports.homepage = function(req, res){
 
     MongoClient.connect('mongodb://localhost:27017/art', function(err, db) {

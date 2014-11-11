@@ -4,10 +4,27 @@ angular.module('starter.controllers', [])
   $scope.friends = Friends.all();
 })
 
-.controller('DashCtrl', function($scope, $stateParams, homeData) {
+.controller('DashCtrl', function($scope, $http, $stateParams, homeData, localStorageService) {
     console.log(homeData.data);
     $scope.photoartists = [];
     $scope.homePageData = []; 
+    
+    
+    $scope.postComment = function(){
+       
+        $scope.comment.artId = $scope.selectedImage.arts[0]._id;
+        $scope.comment.commenter = localStorageService.get("user");
+        $scope.comment.date = moment().format('MMMM Do YYYY, h:mm a');
+         console.log($scope.comment);
+        $http.post('/api/postComment', $scope.comment).success(function(data, status, headers, config){
+                console.log(data);
+                $scope.comment = {};
+            $scope.selectedImage.comments = data.comments;
+            }).error(function(data, status, headers, config){
+                console.error(data);
+            });
+    };
+    
     angular.forEach(homeData.data.artistsArray, function(value, key){
         //console.log(value);
         var artObj = {};
@@ -26,31 +43,62 @@ angular.module('starter.controllers', [])
             
     });
     console.log($scope.homePageData);
+    
+    $scope.collections = [];
+    angular.forEach(homeData.data.arts, function(value, key){
+        //console.log(value);
+        var photoObj = value;
+        
+        var artist = homeData.data.artistsArray.filter(function(artist){
+            return artist._id == value.artistId;
+        })
+        if(artist.length>0){
+        value.artistId = artist[0]._id;
+        value.fname = artist[0].fname;
+        value.lname = artist[0].lname;
+        $scope.collections.push(value);
+        
+        }
+        
+            
+    });
+    console.log($scope.collections);
     $scope.name = 'sorabhsaluja';
     $scope.testClick = function(){
         console.log("This is test click");
     }
- $scope.photos = [
-            {id: 'photo-1', name: 'Awesome photo', src: 'http://lorempixel.com/400/300/abstract'},
-            {id: 'photo-2', name: 'Great photo', src: 'http://lorempixel.com/450/400/city'},
-            {id: 'photo-3', name: 'Strange photo', src: 'http://lorempixel.com/400/300/people'},
-            {id: 'photo-4', name: 'A photo?', src: 'http://lorempixel.com/400/300/transport'},
-            {id: 'photo-5', name: 'What a photo', src: 'http://lorempixel.com/450/300/fashion'},
-            {id: 'photo-6', name: 'Silly photo', src: 'http://lorempixel.com/400/300/technics'},
-            {id: 'photo-7', name: 'Weird photo', src: 'http://lorempixel.com/410/350/sports'},
-            {id: 'photo-8', name: 'Modern photo', src: 'http://lorempixel.com/400/300/nightlife'},
-            {id: 'photo-9', name: 'Classical photo', src: 'http://lorempixel.com/400/300/nature'},
-            {id: 'photo-10', name: 'Dynamic photo', src: 'http://lorempixel.com/420/300/abstract'},
-            {id: 'photo-11', name: 'Neat photo', src: 'http://lorempixel.com/400/300/sports'},
-            {id: 'photo-12', name: 'Bumpy photo', src: 'http://lorempixel.com/400/300/nightlife'},
-            {id: 'photo-13', name: 'Brilliant photo', src: 'http://lorempixel.com/400/380/nature'},
-            {id: 'photo-14', name: 'Excellent photo', src: 'http://lorempixel.com/480/300/technics'},
-            {id: 'photo-15', name: 'Gorgeous photo', src: 'http://lorempixel.com/400/300/sports'},
-            {id: 'photo-16', name: 'Lovely photo', src: 'http://lorempixel.com/400/300/nightlife'},
-            {id: 'photo-17', name: 'A "wow" photo', src: 'http://lorempixel.com/400/300/nature'},
-            {id: 'photo-18', name: 'Bodacious photo', src: 'http://lorempixel.com/400/300/abstract'}
-        ];
+    $scope.collections = shuffle($scope.collections);
     
+    
+         function shuffle(array) {
+          var currentIndex = array.length, temporaryValue, randomIndex ;
+
+              // While there remain elements to shuffle...
+              while (0 !== currentIndex) {
+
+                // Pick a remaining element...
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex -= 1;
+
+                // And swap it with the current element.
+                temporaryValue = array[currentIndex];
+                array[currentIndex] = array[randomIndex];
+                array[randomIndex] = temporaryValue;
+              }
+
+              return array;
+            }
+    
+            $scope.popup = function(card){
+                console.log(card);
+                $scope.selectedImage = card;
+                $http.post('/api/getComments', {artId : card.arts[0]._id}).success(function(data, status, headers, config){
+                $scope.selectedImage.comments = data.comments;
+                console.log(data);
+            }).error(function(data, status, headers, config){
+                console.error(data);
+            });
+            }
     
 })
 

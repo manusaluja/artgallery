@@ -52,8 +52,15 @@ artApp.config(function($stateProvider, $urlRouterProvider, localStorageServicePr
         .state('collections',{
             url:'/collections',
             templateUrl:'templates/collections.html',
-            controller: 'DashCtrl'
-        })
+            controller: 'DashCtrl',
+            resolve:{
+                homeData:  function($http, localStorageService){
+                // $http returns a promise for the url data
+                    return $http({method: 'GET', url: '/api/homepage'});
+                }
+
+                }
+            })
         
 
 }).directive('stopClick', function() {
