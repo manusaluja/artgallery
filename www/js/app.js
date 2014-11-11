@@ -1,5 +1,5 @@
 
-var artApp = angular.module('art', ['ui.router','angular-loading-bar', 'ngAnimate', 'starter.controllers','cfp.loadingBar', 'LocalStorageModule','ui.bootstrap','akoenig.deckgrid']);
+var artApp = angular.module('art', ['ui.router', 'angularFileUpload','angular-loading-bar', 'ngAnimate', 'starter.controllers','cfp.loadingBar', 'LocalStorageModule','ui.bootstrap','akoenig.deckgrid']);
 
 artApp.config(function($stateProvider, $urlRouterProvider, localStorageServiceProvider, $httpProvider) {
     
@@ -14,7 +14,15 @@ artApp.config(function($stateProvider, $urlRouterProvider, localStorageServicePr
         // HOME STATES AND NESTED VIEWS ========================================
         .state('home', {
             url: '/home',
-            templateUrl: 'templates/home.html'
+            templateUrl: 'templates/home.html',
+            controller: 'DashCtrl',
+            resolve:{
+            homeData:  function($http, localStorageService){
+            // $http returns a promise for the url data
+                return $http({method: 'GET', url: '/api/homepage'});
+            }
+
+            }
         })
         
         // ABOUT PAGE AND MULTIPLE NAMED VIEWS =================================
@@ -27,7 +35,14 @@ artApp.config(function($stateProvider, $urlRouterProvider, localStorageServicePr
         .state('account',{
             url:'/account',
             templateUrl:'templates/account.html',
-            controller: 'AccountCtrl'
+            controller: 'AccountCtrl',
+            resolve:{
+            artsObj:  function($http, localStorageService){
+            // $http returns a promise for the url data
+                return $http({method: 'POST', url: '/api/getAllArts', data: {artistId : localStorageService.get("user")._id}});
+            }
+
+            }
         })
         .state('dashboard',{
             url:'/dashboard',
@@ -36,7 +51,8 @@ artApp.config(function($stateProvider, $urlRouterProvider, localStorageServicePr
         })
         .state('collections',{
             url:'/collections',
-            templateUrl:'templates/collections.html'
+            templateUrl:'templates/collections.html',
+            controller: 'DashCtrl'
         })
         
 

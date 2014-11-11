@@ -1,14 +1,16 @@
 var express = require('express'),
     app = express(),
-    register = require('./module/login')
+    register = require('./module/login'),
+    uploadImage = require('./module/uploadImage'),
+    artService = require('./module/artservice')
     bodyParser = require('body-parser');
 app.use(express.static('www'));
-
+var multipart = require('connect-multiparty');
+var multipartMiddleware = multipart();
 // configure app to use bodyParser()
 // this will let us get the data from a POST
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
 var port = process.env.PORT || 8080; 		// set our port
 
 // CORS (Cross-Origin Resource Sharing) headers to support Cross-site HTTP requests
@@ -34,6 +36,13 @@ router.get('/welcome', function(req, res) {
 });
 
 router.post('/register',register.save);
+router.post('/saveArt',artService.saveArt);
+router.post('/deleteArt',artService.deleteArt);
+router.post('/getAllArts',artService.getAllArts);
+router.post('/saveExhibition',artService.saveExhibition);
+router.get('/homepage',artService.homepage);
+
+app.post('/uploadImage',multipartMiddleware, uploadImage.save)
 // more routes for our API will happen here
 
 // REGISTER OUR ROUTES -------------------------------

@@ -1,0 +1,16 @@
+<div class="photo">
+        <div class="photo-wrapper">
+            <img src="" data-ng-src="{{card.imageUrl}}" class="animation-fade" data-imageloaded="" data-loadedclass="animation-faded">
+        </div>
+        <div class="photo-description">
+            <h3>{{card.name}}</h3>
+            <p>{{card.description}}</p>
+        </div>
+    <div class="phototools">
+        <div class="input-group">
+                <div class="input-group-btn">
+                <button class="btn btn-primary"  ng-click="mother.edit(card)" data-toggle="modal" data-target="#editModal"><i class="glyphicon glyphicon glyphicon-edit"></i></button><button class="btn btn-danger" ng-click="mother.delete(card)"><i class="glyphicon glyphicon-trash"></i></button>
+                </div>
+                 </div>
+    </div>
+</div>

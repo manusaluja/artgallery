@@ -16,11 +16,11 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
 
-        <li class="active"><a href="#">Home</a></li>
-        <li><a ui-sref="collections">Collections</a></li>
+        <li ng-class="{active: tabNav == 'home'}" ng-click="tabNav = 'home'"><a href="#">Home</a></li>
+        <li ng-class="{active: tabNav == 'collections'}" ng-click="tabNav = 'collections'"><a ui-sref="collections">Collections</a></li>
 
         <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Exhibitions <span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle">Exhibitions <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
             <li><a ui-sref="home">India</a></li>
             <li><a href="#">USA</a></li>
@@ -40,8 +40,8 @@
       </form>
       <ul class="nav navbar-nav navbar-right">
         <li><a href="" data-toggle="modal" data-target="#login" ng-click="reset()" ng-class="{hide: loggedIn == 'yes'}">Login/Register</a></li>
-     <li><a ui-sref="about">About Us</a></li>
-          <li><a ui-sref="help">Help</a></li>
+     <li ng-class="{active: tabNav == 'about'}" ng-click="tabNav = 'about'"><a ui-sref="about">About Us</a></li>
+          <li ng-class="{active: tabNav == 'help'}" ng-click="tabNav = 'help'"><a ui-sref="help">Help</a></li>
            
           
           
