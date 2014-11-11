@@ -119,3 +119,29 @@ exports.getAllArts = function(req, res){
     });
 
 };
+
+exports.homepage = function(req, res){
+
+    MongoClient.connect('mongodb://localhost:27017/art', function(err, db) {
+        if(err) throw err;
+        console.log('connected to the art database.');
+        var artists = {};
+        var arts = {}
+        db.collection('users').find().toArray(function(err, artistsArray) {
+            if(err) throw err;
+             
+            db.collection('art_objects').find().toArray(function(err, artistworks) {
+                        if(err) throw err;
+            res.json({ message: 'Homepage', isCompleted : 1, artistsArray : artistsArray, arts: artistworks });	                
+                        
+            });
+            
+        });
+
+       
+        
+
+
+    });
+
+};

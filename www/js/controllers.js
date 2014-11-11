@@ -4,8 +4,29 @@ angular.module('starter.controllers', [])
   $scope.friends = Friends.all();
 })
 
-.controller('DashCtrl', function($scope, $stateParams) {
-  $scope.name = 'sorabhsaluja';
+.controller('DashCtrl', function($scope, $stateParams, homeData) {
+    console.log(homeData.data);
+    $scope.photoartists = [];
+    $scope.homePageData = []; 
+    angular.forEach(homeData.data.artistsArray, function(value, key){
+        //console.log(value);
+        var artObj = {};
+        artObj.fname = value.fname;
+        artObj.lname = value.lname;
+        
+        var artfound = homeData.data.arts.filter(function(art){
+            return art.artistId == value._id;
+        })
+        
+        console.log(artfound.length +" for "+value.fname);
+        if(artfound.length > 0){
+            artObj.arts = artfound;
+            $scope.homePageData.push(artObj);
+        }
+            
+    });
+    console.log($scope.homePageData);
+    $scope.name = 'sorabhsaluja';
     $scope.testClick = function(){
         console.log("This is test click");
     }

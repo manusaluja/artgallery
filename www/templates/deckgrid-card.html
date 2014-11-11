@@ -1,10 +1,10 @@
 <div class="photo"><a href="" data-toggle="modal" data-target="#myModal">
         <div class="photo-wrapper">
-            <img src="" data-ng-src="{{card.src}}" class="animation-fade" data-imageloaded="" data-loadedclass="animation-faded">
+            <img src="" data-ng-src="{{card.arts[0].imageUrl}}" class="animation-fade" data-imageloaded="" data-loadedclass="animation-faded">
         </div>
         <div class="photo-description">
-            <h3>{{card.name}}</h3>
-            <p>Nice photo, eh.</p>
+            <h3>{{card.arts[0].description}}</h3>
+            <p>{{card.fname}}</p>
         </div>
     </a>
 </div>

@@ -15,7 +15,14 @@ artApp.config(function($stateProvider, $urlRouterProvider, localStorageServicePr
         .state('home', {
             url: '/home',
             templateUrl: 'templates/home.html',
-            controller: 'DashCtrl'
+            controller: 'DashCtrl',
+            resolve:{
+            homeData:  function($http, localStorageService){
+            // $http returns a promise for the url data
+                return $http({method: 'GET', url: '/api/homepage'});
+            }
+
+            }
         })
         
         // ABOUT PAGE AND MULTIPLE NAMED VIEWS =================================

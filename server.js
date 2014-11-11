@@ -40,6 +40,7 @@ router.post('/saveArt',artService.saveArt);
 router.post('/deleteArt',artService.deleteArt);
 router.post('/getAllArts',artService.getAllArts);
 router.post('/saveExhibition',artService.saveExhibition);
+router.get('/homepage',artService.homepage);
 
 app.post('/uploadImage',multipartMiddleware, uploadImage.save)
 // more routes for our API will happen here
