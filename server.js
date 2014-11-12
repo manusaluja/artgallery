@@ -42,6 +42,7 @@ router.post('/getAllArts',artService.getAllArts);
 router.post('/saveExhibition',artService.saveExhibition);
 router.post('/postComment', artService.postComment);
 router.post('/getComments', artService.getComments);
+router.post('/like', artService.like);
 router.get('/homepage',artService.homepage);
 
 app.post('/uploadImage',multipartMiddleware, uploadImage.save)

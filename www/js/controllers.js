@@ -8,7 +8,36 @@ angular.module('starter.controllers', [])
     console.log(homeData.data);
     $scope.photoartists = [];
     $scope.homePageData = []; 
-    
+    $scope.like = function(){
+    var like = {};
+        like.user = localStorageService.get("user");
+        like.art = $scope.selectedImage.arts[0]._id;
+        $http.post('/api/like', like).success(function(data, status, headers, config){
+                console.log(data.status);
+                if(data.status == 'liked'){ 
+                    $scope.selectedImage.isLiked = true;
+                    if($scope.selectedImage.totalLikes == 1 && $scope.selectedImage.noLikes){
+                    
+                    } else{
+                    $scope.selectedImage.totalLikes++;
+                    }
+                
+                }
+                if(data.status == 'unliked'){ 
+                    $scope.selectedImage.isLiked = false;
+                
+                    if($scope.selectedImage.totalLikes == 1){
+                    
+                    } else{
+                    $scope.selectedImage.totalLikes--;
+                    }
+                
+                }
+            
+            }).error(function(data, status, headers, config){
+                console.error(data);
+            });
+    }
     
     $scope.postComment = function(){
        
@@ -92,6 +121,25 @@ angular.module('starter.controllers', [])
             $scope.popup = function(card){
                 console.log(card);
                 $scope.selectedImage = card;
+                if(card.arts[0].likes){
+                    
+                if(card.arts[0].likes.length == 0){
+                $scope.selectedImage.totalLikes = 1;
+                $scope.selectedImage.noLikes = true;    
+                } else{
+                $scope.selectedImage.totalLikes = card.arts[0].likes.length;
+                }
+                    
+                
+                    if(card.arts[0].likes.indexOf(localStorageService.get("user")._id) != -1){
+                        $scope.selectedImage.isLiked = true;
+                    }
+                } else{
+                        $scope.selectedImage.totalLikes = 1;
+                        $scope.selectedImage.noLikes = true;    
+
+
+                }
                 $http.post('/api/getComments', {artId : card.arts[0]._id}).success(function(data, status, headers, config){
                 $scope.selectedImage.comments = data.comments;
                 console.log(data);
@@ -177,7 +225,7 @@ angular.module('starter.controllers', [])
 
 
 })
-.controller('NavBarController',function($scope, $http, localStorageService)
+.controller('NavBarController',function($scope, $http, localStorageService, $state)
             {    
                     console.log(localStorageService.get("user"));
                     
@@ -236,6 +284,7 @@ angular.module('starter.controllers', [])
                         localStorage.clear();
                         $scope.loggedIn = 'no';
                         $scope.loggedInUser = null;
+                        $state.go('home');
                     }
                     
                     $scope.validateUser = function(){
