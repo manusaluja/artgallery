@@ -49,11 +49,28 @@ artApp.config(function($stateProvider, $urlRouterProvider, localStorageServicePr
             templateUrl:'templates/dashboard.html',
             controller: 'DashCtrl'
         })
+        .state('exhibitions',{
+            url:'/exhibition/:location',
+            templateUrl:'templates/home22.html',
+            controller: 'ExhibitionCtrl'
+        })
+        .state('cart',{
+            url:'/cart',
+            templateUrl:'templates/cart.html',
+            controller: 'CartCtrl'
+        })
         .state('collections',{
             url:'/collections',
             templateUrl:'templates/collections.html',
-            controller: 'DashCtrl'
-        })
+            controller: 'DashCtrl',
+            resolve:{
+                homeData:  function($http, localStorageService){
+                // $http returns a promise for the url data
+                    return $http({method: 'GET', url: '/api/homepage'});
+                }
+
+                }
+            })
         
 
 }).directive('stopClick', function() {

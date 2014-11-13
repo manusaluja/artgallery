@@ -1,13 +1,135 @@
 angular.module('starter.controllers', [])
 
-.controller('Home', function($scope, Friends) {
-  $scope.friends = Friends.all();
+.controller('ExhibitionCtrl', function($scope, $stateParams, $http) {
+  console.log($stateParams);
+    $http.post('/api/exhibitions', $stateParams).success(function(data, status, headers, config){
+                        console.log(data);
+                        $scope.exhibitions = data.exhibitions;
+            
+                        }).error(function(data, status, headers, config){
+                            console.error(data);
+                        });
 })
+.controller('CartCtrl', function($scope, $http, localStorageService) {
+    $scope.cartObj = localStorageService.get("cart");
+    console.log($scope.cartObj);
+    if($scope.cartObj == null){
+       $scope.cartObj = {};
+       $scope.cartObj.cart = [];
+       }
+/*    $http.post('/api/exhibitions', $stateParams).success(function(data, status, headers, config){
+                        console.log(data);
+                        $scope.exhibitions = data.exhibitions;
+            
+                        }).error(function(data, status, headers, config){
+                            console.error(data);
+                        });*/
+    $scope.cartTotal = 0;
+        angular.forEach($scope.cartObj.cart, function(value, key){
+        //console.log(value);
+       $scope.cartTotal += value.price;
+          
+    });
+       $scope.checkout = function(){
+                    
+                var order = {};
+                order.items = [];
+                order.total = $scope.cartTotal;
 
-.controller('DashCtrl', function($scope, $stateParams, homeData) {
+           angular.forEach($scope.cartObj.cart, function(value, key){
+                var obj = {};
+                    obj._id = value._id;
+                    obj.price = value.price;
+                    obj.type = value.type;
+                    obj.name = value.name;
+                    obj.description = value.description;
+                order.items.push(obj);
+
+                });
+           order.orderDate = moment().format('MMMM Do YYYY, h:mm a');    
+           order.totalItems = $scope.cartObj.cart.length;
+           order.userId = localStorageService.get("user")._id;
+           console.log(order);
+               $http.post('/api/saveOrder', order).success(function(data, status, headers, config){
+                        console.log(data);
+                        localStorage.removeItem("cart");
+                        }).error(function(data, status, headers, config){
+                            console.error(data);
+                        });
+            } 
+    
+})
+.controller('DashCtrl', function($scope, $http, $stateParams, homeData, localStorageService) {
     console.log(homeData.data);
     $scope.photoartists = [];
     $scope.homePageData = []; 
+    $scope.like = function(){
+    var like = {};
+        like.user = localStorageService.get("user");
+        like.art = $scope.selectedImage.arts[0]._id;
+        $http.post('/api/like', like).success(function(data, status, headers, config){
+                console.log(data.status);
+                if(data.status == 'liked'){ 
+                    $scope.selectedImage.isLiked = true;
+                    if($scope.selectedImage.totalLikes == 1 && $scope.selectedImage.noLikes){
+                    
+                    } else{
+                    $scope.selectedImage.totalLikes++;
+                    }
+                
+                }
+                if(data.status == 'unliked'){ 
+                    $scope.selectedImage.isLiked = false;
+                
+                    if($scope.selectedImage.totalLikes == 1){
+                    
+                    } else{
+                    $scope.selectedImage.totalLikes--;
+                    }
+                
+                }
+            
+            }).error(function(data, status, headers, config){
+                console.error(data);
+            });
+    }
+    
+    $scope.addToCart = function(){
+        console.log($scope.selectedImage.arts[0]);
+        
+        var cartObj = localStorageService.get("cart");
+        if(cartObj == null){
+            cartObj = {};
+            cartObj.cart = [];
+        }
+        
+        var artfound = cartObj.cart.filter(function(art){
+            return art._id == $scope.selectedImage.arts[0]._id;
+        })
+        if(artfound.length>0){
+            console.log('Already Added to Cart');
+            return;
+        }
+        cartObj.cart.push($scope.selectedImage.arts[0]);
+        localStorageService.set("cart", cartObj);
+        
+    }
+    
+    $scope.postComment = function(){
+       
+        $scope.comment.artId = $scope.selectedImage.arts[0]._id;
+        $scope.comment.commenter = localStorageService.get("user");
+        $scope.comment.date = moment().format('MMMM Do YYYY, h:mm a');
+         console.log($scope.comment);
+        $http.post('/api/postComment', $scope.comment).success(function(data, status, headers, config){
+                console.log(data);
+                $scope.comment = {};
+            $scope.selectedImage.comments = data.comments;
+            }).error(function(data, status, headers, config){
+                console.error(data);
+            });
+    };
+    
     angular.forEach(homeData.data.artistsArray, function(value, key){
         //console.log(value);
         var artObj = {};
@@ -26,38 +148,88 @@ angular.module('starter.controllers', [])
             
     });
     console.log($scope.homePageData);
+    
+    $scope.collections = [];
+    angular.forEach(homeData.data.arts, function(value, key){
+        //console.log(value);
+        var photoObj = value;
+        
+        var artist = homeData.data.artistsArray.filter(function(artist){
+            return artist._id == value.artistId;
+        })
+        if(artist.length>0){
+        value.artistId = artist[0]._id;
+        value.fname = artist[0].fname;
+        value.lname = artist[0].lname;
+        $scope.collections.push(value);
+        
+        }
+        
+            
+    });
+    console.log($scope.collections);
     $scope.name = 'sorabhsaluja';
     $scope.testClick = function(){
         console.log("This is test click");
     }
- $scope.photos = [
-            {id: 'photo-1', name: 'Awesome photo', src: 'http://lorempixel.com/400/300/abstract'},
-            {id: 'photo-2', name: 'Great photo', src: 'http://lorempixel.com/450/400/city'},
-            {id: 'photo-3', name: 'Strange photo', src: 'http://lorempixel.com/400/300/people'},
-            {id: 'photo-4', name: 'A photo?', src: 'http://lorempixel.com/400/300/transport'},
-            {id: 'photo-5', name: 'What a photo', src: 'http://lorempixel.com/450/300/fashion'},
-            {id: 'photo-6', name: 'Silly photo', src: 'http://lorempixel.com/400/300/technics'},
-            {id: 'photo-7', name: 'Weird photo', src: 'http://lorempixel.com/410/350/sports'},
-            {id: 'photo-8', name: 'Modern photo', src: 'http://lorempixel.com/400/300/nightlife'},
-            {id: 'photo-9', name: 'Classical photo', src: 'http://lorempixel.com/400/300/nature'},
-            {id: 'photo-10', name: 'Dynamic photo', src: 'http://lorempixel.com/420/300/abstract'},
-            {id: 'photo-11', name: 'Neat photo', src: 'http://lorempixel.com/400/300/sports'},
-            {id: 'photo-12', name: 'Bumpy photo', src: 'http://lorempixel.com/400/300/nightlife'},
-            {id: 'photo-13', name: 'Brilliant photo', src: 'http://lorempixel.com/400/380/nature'},
-            {id: 'photo-14', name: 'Excellent photo', src: 'http://lorempixel.com/480/300/technics'},
-            {id: 'photo-15', name: 'Gorgeous photo', src: 'http://lorempixel.com/400/300/sports'},
-            {id: 'photo-16', name: 'Lovely photo', src: 'http://lorempixel.com/400/300/nightlife'},
-            {id: 'photo-17', name: 'A "wow" photo', src: 'http://lorempixel.com/400/300/nature'},
-            {id: 'photo-18', name: 'Bodacious photo', src: 'http://lorempixel.com/400/300/abstract'}
-        ];
+    $scope.collections = shuffle($scope.collections);
     
+    
+         function shuffle(array) {
+          var currentIndex = array.length, temporaryValue, randomIndex ;
+
+              // While there remain elements to shuffle...
+              while (0 !== currentIndex) {
+
+                // Pick a remaining element...
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex -= 1;
+
+                // And swap it with the current element.
+                temporaryValue = array[currentIndex];
+                array[currentIndex] = array[randomIndex];
+                array[randomIndex] = temporaryValue;
+              }
+
+              return array;
+            }
+    
+            $scope.popup = function(card){
+                console.log(card);
+                $scope.selectedImage = card;
+                if(card.arts[0].likes){
+                    
+                if(card.arts[0].likes.length == 0){
+                $scope.selectedImage.totalLikes = 1;
+                $scope.selectedImage.noLikes = true;    
+                } else{
+                $scope.selectedImage.totalLikes = card.arts[0].likes.length;
+                }
+                    
+                
+                    if(card.arts[0].likes.indexOf(localStorageService.get("user")._id) != -1){
+                        $scope.selectedImage.isLiked = true;
+                    }
+                } else{
+                        $scope.selectedImage.totalLikes = 1;
+                        $scope.selectedImage.noLikes = true;    
+
+
+                }
+                $http.post('/api/getComments', {artId : card.arts[0]._id}).success(function(data, status, headers, config){
+                $scope.selectedImage.comments = data.comments;
+                console.log(data);
+            }).error(function(data, status, headers, config){
+                console.error(data);
+            });
+            }
     
 })
 
 .controller('AccountCtrl', function($scope,$http,cfpLoadingBar, artsObj, localStorageService) {
     console.log(artsObj.data.artsArray);
     $scope.artsArray = artsObj.data.artsArray;
-     
+    $scope.user = localStorageService.get("user"); 
     console.log("Initialized");
     
     $scope.start = function(){
@@ -129,10 +301,16 @@ angular.module('starter.controllers', [])
 
 
 })
-.controller('NavBarController',function($scope, $http, localStorageService)
+.controller('NavBarController',function($scope, $http, localStorageService, $state)
             {    
                     console.log(localStorageService.get("user"));
-                    
+                    $http.get('/api/locations').success(function(data, status, headers, config){
+                        console.log(data);
+                        $scope.locations = data.locations;
+            
+                        }).error(function(data, status, headers, config){
+                            console.error(data);
+                        });
                     $scope.highlight='login';
                     $scope.loggedIn = 'no';
                     $scope.reset = function(){
@@ -188,6 +366,7 @@ angular.module('starter.controllers', [])
                         localStorage.clear();
                         $scope.loggedIn = 'no';
                         $scope.loggedInUser = null;
+                        $state.go('home');
                     }
                     
                     $scope.validateUser = function(){
@@ -242,6 +421,8 @@ angular.module('starter.controllers', [])
          $scope.saveExhibition = function(){
              $scope.exhibition.artistId = localStorageService.get("user")._id;
              $scope.exhibition.imageUrl = $scope.art.imageUrl;
+             $scope.exhibition.StartDate = moment($scope.exhibition.StartDate).format('MMMM Do YYYY');
+             $scope.exhibition.EndDate = moment($scope.exhibition.EndDate).format('MMMM Do YYYY');
                 console.log($scope.exhibition);
              $http.post('/api/saveExhibition', $scope.exhibition).success(function(data, status, headers, config){
                 console.log(data);

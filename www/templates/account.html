@@ -15,7 +15,7 @@
                     </li>
                     <li>
                         <a data-toggle="tab" href="#settings" stop-click>
-                            <span class="glyphicon glyphicon-cog"></span>
+                            <span class="glyphicon glyphicon-euro"></span>
                         </a>
                     </li>
                     <li>
@@ -29,13 +29,31 @@
                     <div class="tab-content">
                         <div id="information" class="tab-pane active">
                             <h4>Account Information</h4>
+                             <div class="list-group" style="width:113%">
+                                    <li class="list-group-item">{{user.fname}}, {{user.lname}}</li>
+                                    <li class="list-group-item">{{user.email}}</li>
+                                    <li class="list-group-item">{{user.role}}</li>
+                                  </div>
+                            
+                            <a class="btn btn-primary center-block" data-toggle="modal" data-target="#exhibitionModal" style="margin-top:15px">Edit Profile</a>
                         </div>
                         <div id="settings" class="tab-pane">
-                            <h4>Settings</h4>
+                            <h4>Orders</h4>
+                            
+                                  <div class="list-group" style="width:113%">
+                                    <a href="http://bootply.com/tagged/modal" class="list-group-item">Modal / Dialog</a>
+                                    <a href="http://bootply.com/tagged/datetime" class="list-group-item">Datetime Examples</a>
+                                    <a href="http://bootply.com/tagged/datatable" class="list-group-item">Data Grids</a>
+                                  </div>
                         </div>
                         <div id="exhibition" class="tab-pane">
                             <h4>Exhibitions</h4>
                             <a class="btn btn-primary center-block"   data-toggle="modal" data-target="#exhibitionModal">Create Exhibition</a>
+                             <div class="list-group" style="width:113%; margin-top:15px;">
+                                    <a href="http://bootply.com/tagged/modal" class="list-group-item">Modal / Dialog</a>
+                                    <a href="http://bootply.com/tagged/datetime" class="list-group-item">Datetime Examples</a>
+                                    <a href="http://bootply.com/tagged/datatable" class="list-group-item">Data Grids</a>
+                                  </div>
                         </div>
                         
                     </div>

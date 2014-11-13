@@ -120,6 +120,52 @@ exports.getAllArts = function(req, res){
 
 };
 
+exports.postComment = function(req, res){
+
+     var comment = req.body;
+    var artReqId = comment.artId;
+    MongoClient.connect('mongodb://localhost:27017/art', function(err, db) {
+        if(err) throw err;
+
+        console.log('connected to the art database.');
+        db.collection('comments').insert(comment, function(err, arts) {
+            if(err) throw err;
+            var query = {artId : artReqId }
+            db.collection('comments').find(query).toArray(function(err, commentsArray){
+            if(err) throw err;
+                
+                
+                res.json({ message: 'Comments', isCompleted : 1, comments : commentsArray });	
+            });
+            
+
+        });
+
+
+
+    });
+                        
+}
+
+exports.getComments = function(req, res){
+
+     var artReqId = req.body.artId;
+    console.log(req.body);
+    MongoClient.connect('mongodb://localhost:27017/art', function(err, db) {
+        if(err) throw err;
+
+        console.log('connected to the art database.');
+            var query = {artId : artReqId }
+            db.collection('comments').find(query).toArray(function(err, commentsArray){
+            if(err) throw err;
+               res.json({ message: 'Comments', isCompleted : 1, comments : commentsArray });	
+            });
+            
+        });
+                        
+}
+
+
 exports.homepage = function(req, res){
 
     MongoClient.connect('mongodb://localhost:27017/art', function(err, db) {
@@ -145,3 +191,62 @@ exports.homepage = function(req, res){
     });
 
 };
+
+exports.like = function(req, res){
+    console.log('Like from the service');
+    var userId = req.body.user._id;
+    var artId = new BSON.ObjectID(req.body.art);
+    
+    console.log(req.body);
+    
+    MongoClient.connect('mongodb://localhost:27017/art', function(err, db) {
+        if(err) throw err;
+     
+        console.log('connected to the art database.');
+        
+        var col = db.collection("art_objects");
+        var batch = col.initializeOrderedBulkOp();
+        batch.find({ "_id": artId }).upsert().updateOne({ "$addToSet": { "likes": userId } });
+        batch.execute(function(err,result) {
+            console.log( JSON.stringify( result, undefined, 4 ) );
+            console.log(result.nModified);
+            if(result.nModified == 0){
+                console.log("Already Liked");
+                db.collection("art_objects").update({ _id: artId },{ $pull: { 'likes': userId } }, function(err, result){
+                 if(err) throw err;
+                    console.log(result);
+                    res.json({ message: 'Homepage', isCompleted : 1, status: 'unliked'});
+                });
+                
+            } else{
+            
+                    res.json({ message: 'Homepage', isCompleted : 1, status: 'liked'});	                      
+            }
+          });
+        
+     
+       
+
+    });
+    
+};
+
+
+exports.saveOrder = function(req, res){
+
+    var order = req.body;
+    MongoClient.connect('mongodb://localhost:27017/art', function(err, db) {
+        if(err) throw err;
+
+        console.log('connected to the art database.');
+        db.collection('orders').insert(order, function(err, order) {
+            if(err) throw err;
+            res.json({ message: 'Order Completed', isCompleted : 1, order : order });	
+
+        });
+
+
+
+    });
+                        
+}

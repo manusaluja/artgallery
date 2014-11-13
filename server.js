@@ -2,7 +2,8 @@ var express = require('express'),
     app = express(),
     register = require('./module/login'),
     uploadImage = require('./module/uploadImage'),
-    artService = require('./module/artservice')
+    artService = require('./module/artservice'),
+    exhibitionService = require('./module/exhibition')
     bodyParser = require('body-parser');
 app.use(express.static('www'));
 var multipart = require('connect-multiparty');
@@ -40,7 +41,13 @@ router.post('/saveArt',artService.saveArt);
 router.post('/deleteArt',artService.deleteArt);
 router.post('/getAllArts',artService.getAllArts);
 router.post('/saveExhibition',artService.saveExhibition);
+router.post('/postComment', artService.postComment);
+router.post('/getComments', artService.getComments);
+router.post('/like', artService.like);
 router.get('/homepage',artService.homepage);
+router.get('/locations', exhibitionService.locations);
+router.post('/exhibitions', exhibitionService.exhibitions);
+router.post('/saveOrder', artService.saveOrder);
 
 app.post('/uploadImage',multipartMiddleware, uploadImage.save)
 // more routes for our API will happen here

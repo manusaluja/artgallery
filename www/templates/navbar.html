@@ -22,13 +22,8 @@
         <li class="dropdown">
           <a href="#" class="dropdown-toggle">Exhibitions <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
-            <li><a ui-sref="home">India</a></li>
-            <li><a href="#">USA</a></li>
-            <li><a href="#">New York</a></li>
-            <li class="divider"></li>
-            <li><a href="#">Separated link</a></li>
-            <li class="divider"></li>
-            <li><a href="#">One more separated link</a></li>
+            <li ng-repeat="location in locations" ><a href="#/exhibition/{{location}}">{{location}}</a></li>
+            
           </ul>
         </li>
       </ul>
@@ -41,7 +36,6 @@
       <ul class="nav navbar-nav navbar-right">
         <li><a href="" data-toggle="modal" data-target="#login" ng-click="reset()" ng-class="{hide: loggedIn == 'yes'}">Login/Register</a></li>
      <li ng-class="{active: tabNav == 'about'}" ng-click="tabNav = 'about'"><a ui-sref="about">About Us</a></li>
-          <li ng-class="{active: tabNav == 'help'}" ng-click="tabNav = 'help'"><a ui-sref="help">Help</a></li>
            
           
           
@@ -50,10 +44,8 @@
            <a href="" style="margin-left:15px;" class="navbar-btn btn btn-default btn-plus dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-home" style="color:#dd1111;"></i>&nbsp;{{loggedInUser.fname}}&nbsp;<small><i class="glyphicon glyphicon-chevron-down"></i></small></a>
 				  <ul class="nav dropdown-menu">
 					  <li><a ui-sref="account"><i class="glyphicon glyphicon-user" style="color:#1111dd;"></i> Account</a></li>
-					  <li><a ui-sref="dashboard"><i class="glyphicon glyphicon-dashboard" style="color:#0000aa;"></i> Dashboard</a></li>
-					  <li><a href="#"><i class="glyphicon glyphicon-inbox" style="color:#11dd11;"></i> Pages</a></li>
+					  <li><a ui-sref="cart"><i class="glyphicon glyphicon-dashboard" style="color:#0000aa;"></i> Cart</a></li>
 					  <li class="nav-divider"></li>
-					  <li><a href="#"><i class="glyphicon glyphicon-cog" style="color:#dd1111;"></i> Settings</a></li>
 					  <li><a ng-click="logout()"><i class="glyphicon glyphicon-share"></i>Logout</a></li>
 				  </ul>
 				  
