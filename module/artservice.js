@@ -150,7 +150,7 @@ exports.postComment = function(req, res){
 exports.getComments = function(req, res){
 
      var artReqId = req.body.artId;
-console.log(req.body);
+    console.log(req.body);
     MongoClient.connect('mongodb://localhost:27017/art', function(err, db) {
         if(err) throw err;
 
@@ -230,3 +230,23 @@ exports.like = function(req, res){
     });
     
 };
+
+
+exports.saveOrder = function(req, res){
+
+    var order = req.body;
+    MongoClient.connect('mongodb://localhost:27017/art', function(err, db) {
+        if(err) throw err;
+
+        console.log('connected to the art database.');
+        db.collection('orders').insert(order, function(err, order) {
+            if(err) throw err;
+            res.json({ message: 'Order Completed', isCompleted : 1, order : order });	
+
+        });
+
+
+
+    });
+                        
+}

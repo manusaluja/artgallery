@@ -1,9 +1,64 @@
 angular.module('starter.controllers', [])
 
-.controller('Home', function($scope, Friends) {
-  $scope.friends = Friends.all();
+.controller('ExhibitionCtrl', function($scope, $stateParams, $http) {
+  console.log($stateParams);
+    $http.post('/api/exhibitions', $stateParams).success(function(data, status, headers, config){
+                        console.log(data);
+                        $scope.exhibitions = data.exhibitions;
+            
+                        }).error(function(data, status, headers, config){
+                            console.error(data);
+                        });
 })
+.controller('CartCtrl', function($scope, $http, localStorageService) {
+    $scope.cartObj = localStorageService.get("cart");
+    console.log($scope.cartObj);
+    if($scope.cartObj == null){
+       $scope.cartObj = {};
+       $scope.cartObj.cart = [];
+       }
+/*    $http.post('/api/exhibitions', $stateParams).success(function(data, status, headers, config){
+                        console.log(data);
+                        $scope.exhibitions = data.exhibitions;
+            
+                        }).error(function(data, status, headers, config){
+                            console.error(data);
+                        });*/
+    $scope.cartTotal = 0;
+        angular.forEach($scope.cartObj.cart, function(value, key){
+        //console.log(value);
+       $scope.cartTotal += value.price;
+          
+    });
+       $scope.checkout = function(){
+                    
+                var order = {};
+                order.items = [];
+                order.total = $scope.cartTotal;
 
+           angular.forEach($scope.cartObj.cart, function(value, key){
+                var obj = {};
+                    obj._id = value._id;
+                    obj.price = value.price;
+                    obj.type = value.type;
+                    obj.name = value.name;
+                    obj.description = value.description;
+                order.items.push(obj);
+
+                });
+           order.orderDate = moment().format('MMMM Do YYYY, h:mm a');    
+           order.totalItems = $scope.cartObj.cart.length;
+           order.userId = localStorageService.get("user")._id;
+           console.log(order);
+               $http.post('/api/saveOrder', order).success(function(data, status, headers, config){
+                        console.log(data);
+                        localStorage.removeItem("cart");
+                        }).error(function(data, status, headers, config){
+                            console.error(data);
+                        });
+            } 
+    
+})
 .controller('DashCtrl', function($scope, $http, $stateParams, homeData, localStorageService) {
     console.log(homeData.data);
     $scope.photoartists = [];
@@ -37,6 +92,27 @@ angular.module('starter.controllers', [])
             }).error(function(data, status, headers, config){
                 console.error(data);
             });
+    }
+    
+    $scope.addToCart = function(){
+        console.log($scope.selectedImage.arts[0]);
+        
+        var cartObj = localStorageService.get("cart");
+        if(cartObj == null){
+            cartObj = {};
+            cartObj.cart = [];
+        }
+        
+        var artfound = cartObj.cart.filter(function(art){
+            return art._id == $scope.selectedImage.arts[0]._id;
+        })
+        if(artfound.length>0){
+            console.log('Already Added to Cart');
+            return;
+        }
+        cartObj.cart.push($scope.selectedImage.arts[0]);
+        localStorageService.set("cart", cartObj);
+        
     }
     
     $scope.postComment = function(){
@@ -153,7 +229,7 @@ angular.module('starter.controllers', [])
 .controller('AccountCtrl', function($scope,$http,cfpLoadingBar, artsObj, localStorageService) {
     console.log(artsObj.data.artsArray);
     $scope.artsArray = artsObj.data.artsArray;
-     
+    $scope.user = localStorageService.get("user"); 
     console.log("Initialized");
     
     $scope.start = function(){
@@ -228,7 +304,13 @@ angular.module('starter.controllers', [])
 .controller('NavBarController',function($scope, $http, localStorageService, $state)
             {    
                     console.log(localStorageService.get("user"));
-                    
+                    $http.get('/api/locations').success(function(data, status, headers, config){
+                        console.log(data);
+                        $scope.locations = data.locations;
+            
+                        }).error(function(data, status, headers, config){
+                            console.error(data);
+                        });
                     $scope.highlight='login';
                     $scope.loggedIn = 'no';
                     $scope.reset = function(){
@@ -339,6 +421,8 @@ angular.module('starter.controllers', [])
          $scope.saveExhibition = function(){
              $scope.exhibition.artistId = localStorageService.get("user")._id;
              $scope.exhibition.imageUrl = $scope.art.imageUrl;
+             $scope.exhibition.StartDate = moment($scope.exhibition.StartDate).format('MMMM Do YYYY');
+             $scope.exhibition.EndDate = moment($scope.exhibition.EndDate).format('MMMM Do YYYY');
                 console.log($scope.exhibition);
              $http.post('/api/saveExhibition', $scope.exhibition).success(function(data, status, headers, config){
                 console.log(data);

@@ -20,7 +20,7 @@
             <p class="lead">{{selectedImage.arts[0].description}}</p>
             
             <p>
-              <button class="btn btn-success pull-right" type="button">Add to Cart</button>
+              <button class="btn btn-success pull-right" type="button" ng-click="addToCart()">Add to Cart</button>
             </p>
               
           </div>
@@ -40,7 +40,7 @@
                   <img src="http://lorempixel.com/50/50/people/6" />
                 </div>
                 <div class="commentText">
-                    <p class="">{{comment.text}}</p> <span class="date sub-text">on {{comment.date}}</span>
+                    <p class="">{{comment.text}}</p> <span class="date sub-text">{{comment.commenter.fname}} on {{comment.date}}</span>
 
                 </div>
             </li>

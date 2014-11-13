@@ -49,6 +49,16 @@ artApp.config(function($stateProvider, $urlRouterProvider, localStorageServicePr
             templateUrl:'templates/dashboard.html',
             controller: 'DashCtrl'
         })
+        .state('exhibitions',{
+            url:'/exhibition/:location',
+            templateUrl:'templates/home22.html',
+            controller: 'ExhibitionCtrl'
+        })
+        .state('cart',{
+            url:'/cart',
+            templateUrl:'templates/cart.html',
+            controller: 'CartCtrl'
+        })
         .state('collections',{
             url:'/collections',
             templateUrl:'templates/collections.html',
