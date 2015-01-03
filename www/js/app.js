@@ -40,7 +40,15 @@ artApp.config(function($stateProvider, $urlRouterProvider, localStorageServicePr
             artsObj:  function($http, localStorageService){
             // $http returns a promise for the url data
                 return $http({method: 'POST', url: '/api/getAllArts', data: {artistId : localStorageService.get("user")._id}});
+            },
+                
+                orders : function($http, localStorageService){
+            // $http returns a promise for the url data
+                return $http({method: 'POST', url: '/api/viewOrder', data: {userId : localStorageService.get("user")._id}});
             }
+            
+                
+                
 
             }
         })

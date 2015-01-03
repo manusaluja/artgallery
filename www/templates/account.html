@@ -1,10 +1,8 @@
 <div class="col-sm-4 col-md-4 user-details" style="left:25px;position:fixed">
-            <div class="user-image">
-                <img src="http://www.gravatar.com/avatar/2ab7b2009d27ec37bffee791819a090c?s=100&d=mm&r=g" alt="Karan Singh Sisodia" title="Karan Singh Sisodia" class="img-circle">
-            </div>
+            
             <div class="user-info-block">
                 <div class="user-heading">
-                    <h3>Niharika Saluja</h3>
+                    <h3>{{user.fname}} {{user.lname}}</h3>
                     <span class="help-block">Delhi, IN</span>
                 </div>
                 <ul class="navigation">
@@ -30,7 +28,7 @@
                         <div id="information" class="tab-pane active">
                             <h4>Account Information</h4>
                              <div class="list-group" style="width:113%">
-                                    <li class="list-group-item">{{user.fname}}, {{user.lname}}</li>
+                                    <li class="list-group-item">{{user.fname}} {{user.lname}}</li>
                                     <li class="list-group-item">{{user.email}}</li>
                                     <li class="list-group-item">{{user.role}}</li>
                                   </div>
@@ -41,18 +39,17 @@
                             <h4>Orders</h4>
                             
                                   <div class="list-group" style="width:113%">
-                                    <a href="http://bootply.com/tagged/modal" class="list-group-item">Modal / Dialog</a>
-                                    <a href="http://bootply.com/tagged/datetime" class="list-group-item">Datetime Examples</a>
-                                    <a href="http://bootply.com/tagged/datatable" class="list-group-item">Data Grids</a>
+                                    <a href="http://bootply.com/tagged/modal" class="list-group-item" ng-repeat="order in vieworder">{{order.total}}</a>
+                                   
                                   </div>
                         </div>
                         <div id="exhibition" class="tab-pane">
                             <h4>Exhibitions</h4>
                             <a class="btn btn-primary center-block"   data-toggle="modal" data-target="#exhibitionModal">Create Exhibition</a>
                              <div class="list-group" style="width:113%; margin-top:15px;">
-                                    <a href="http://bootply.com/tagged/modal" class="list-group-item">Modal / Dialog</a>
-                                    <a href="http://bootply.com/tagged/datetime" class="list-group-item">Datetime Examples</a>
-                                    <a href="http://bootply.com/tagged/datatable" class="list-group-item">Data Grids</a>
+                                    <a href="http://bootply.com/tagged/modal" class="list-group-item">Arkansas</a>
+                                    <a href="http://bootply.com/tagged/datetime" class="list-group-item">Delaware</a>
+                                    <a href="http://bootply.com/tagged/datatable" class="list-group-item">Calirfornia</a>
                                   </div>
                         </div>
                         

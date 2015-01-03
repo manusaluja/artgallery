@@ -59,12 +59,14 @@ angular.module('starter.controllers', [])
             } 
     
 })
-.controller('DashCtrl', function($scope, $http, $stateParams, homeData, localStorageService) {
+.controller('DashCtrl', function($scope, $http, homeData, localStorageService) {
     console.log(homeData.data);
     $scope.photoartists = [];
     $scope.homePageData = []; 
-    $scope.like = function(){
+    
+    $scope.like = function(){ //when user clicks on like
     var like = {};
+        
         like.user = localStorageService.get("user");
         like.art = $scope.selectedImage.arts[0]._id;
         $http.post('/api/like', like).success(function(data, status, headers, config){
@@ -94,7 +96,7 @@ angular.module('starter.controllers', [])
             });
     }
     
-    $scope.addToCart = function(){
+    $scope.addToCart = function(){ //when user clicks on add to cart
         console.log($scope.selectedImage.arts[0]);
         
         var cartObj = localStorageService.get("cart");
@@ -115,7 +117,7 @@ angular.module('starter.controllers', [])
         
     }
     
-    $scope.postComment = function(){
+    $scope.postComment = function(){ //when user clicks on add comment
        
         $scope.comment.artId = $scope.selectedImage.arts[0]._id;
         $scope.comment.commenter = localStorageService.get("user");
@@ -194,6 +196,11 @@ angular.module('starter.controllers', [])
               return array;
             }
     
+    
+        /**
+        Selects the card clicked upon and adds it to scope as selected image.
+        Selected image is then displayed as popup.
+        */
             $scope.popup = function(card){
                 console.log(card);
                 $scope.selectedImage = card;
@@ -226,8 +233,10 @@ angular.module('starter.controllers', [])
     
 })
 
-.controller('AccountCtrl', function($scope,$http,cfpLoadingBar, artsObj, localStorageService) {
+.controller('AccountCtrl', function($scope,$http,cfpLoadingBar, artsObj,orders, localStorageService) {
     console.log(artsObj.data.artsArray);
+    console.log('orders');
+    console.log(orders);
     $scope.artsArray = artsObj.data.artsArray;
     $scope.user = localStorageService.get("user"); 
     console.log("Initialized");
@@ -265,7 +274,7 @@ angular.module('starter.controllers', [])
                 console.error(data);
             });
         };
-    
+    $scope.vieworder = orders.data.orders;
    
     
     $scope.today = function() {

@@ -4,22 +4,17 @@ var express = require('express'),
     uploadImage = require('./module/uploadImage'),
     artService = require('./module/artservice'),
     exhibitionService = require('./module/exhibition')
-    bodyParser = require('body-parser');
-app.use(express.static('www'));
-var multipart = require('connect-multiparty');
+    bodyParser = require('body-parser');  //for query params 
+
+app.use(express.static('www'));        //it is for view part
+
+var multipart = require('connect-multiparty');   // file upload
 var multipartMiddleware = multipart();
 // configure app to use bodyParser()
 // this will let us get the data from a POST
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-var port = process.env.PORT || 8080; 		// set our port
 
-// CORS (Cross-Origin Resource Sharing) headers to support Cross-site HTTP requests
-app.all('*', function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
-    next();
-});
 
 
 // ROUTES FOR OUR API
@@ -48,7 +43,7 @@ router.get('/homepage',artService.homepage);
 router.get('/locations', exhibitionService.locations);
 router.post('/exhibitions', exhibitionService.exhibitions);
 router.post('/saveOrder', artService.saveOrder);
-
+router.post('/viewOrder',artService.viewOrder);
 app.post('/uploadImage',multipartMiddleware, uploadImage.save)
 // more routes for our API will happen here
 
@@ -56,9 +51,7 @@ app.post('/uploadImage',multipartMiddleware, uploadImage.save)
 // all of our routes will be prefixed with /api
 router.post('/login',register.validate);
 app.use('/api', router);
-
-
-app.set('port', process.env.PORT || 5000);
+app.set('port', 5000);
 
 app.listen(app.get('port'), function () {
     console.log('Express server listening on port ' + app.get('port'));

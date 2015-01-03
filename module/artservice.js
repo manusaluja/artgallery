@@ -1,5 +1,6 @@
 var MongoClient = require('mongodb').MongoClient;
 var mongo = require('mongodb');
+
 var Server = mongo.Server,
     Db = mongo.Db,
     BSON = mongo.BSONPure;
@@ -249,4 +250,23 @@ exports.saveOrder = function(req, res){
 
     });
                         
+}
+
+
+exports.viewOrder = function(req,res){
+    console.log(req.body.userId);
+    var order = {userId : req.body.userId}
+ MongoClient.connect('mongodb://localhost:27017/art', function(err, db) {
+        if(err) throw err;
+
+        console.log('connected to the art database.');
+        db.collection('orders').find(order).toArray(function(err, userOrders) {
+            if(err) throw err;
+            res.json({ message: 'Order Completed', isCompleted : 1, orders : userOrders });	
+
+        });
+
+
+
+    });
 }
