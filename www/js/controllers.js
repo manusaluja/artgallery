@@ -49,6 +49,7 @@ angular.module('starter.controllers', [])
            order.orderDate = moment().format('MMMM Do YYYY, h:mm a');    
            order.totalItems = $scope.cartObj.cart.length;
            order.userId = localStorageService.get("user")._id;
+           order.orderId = "ODR"+Math.floor((Math.random() * 10000) + 1);
            console.log(order);
                $http.post('/api/saveOrder', order).success(function(data, status, headers, config){
                         console.log(data);

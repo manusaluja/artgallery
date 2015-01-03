@@ -17,10 +17,10 @@ artApp.config(function($stateProvider, $urlRouterProvider, localStorageServicePr
             templateUrl: 'templates/home.html',
             controller: 'DashCtrl',
             resolve:{
-            homeData:  function($http, localStorageService){
-            // $http returns a promise for the url data
-                return $http({method: 'GET', url: '/api/homepage'});
-            }
+                homeData:  function($http, localStorageService){
+                // $http returns a promise for the url data
+                    return $http({method: 'GET', url: '/api/homepage'});
+                }
 
             }
         })
